@@ -1,0 +1,8 @@
+Flask==2.2.2
+Flask-SQLAlchemy==2.5.1
+Flask-Migrate==3.1.0
+Flask-RESTful==0.3.9
+marshmallow==3.14.1
+python-dotenv==0.19.2
+pytest==7.1.2
+pytest-flask==1.2.0

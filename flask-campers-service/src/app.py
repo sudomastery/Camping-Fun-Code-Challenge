@@ -1,17 +1,14 @@
-from flask import Flask
-from extensions import db
-from routes import register_routes
-from config import Config
+from flask import Flask, jsonify
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
 
-    db.init_app(app)
-    register_routes(app)
-
+    @app.route('/')
+    def health():
+        return jsonify({"status": "ok"}), 200
     return app
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    # Run on port 5555 to match the challenge instructions
+    app.run(port=5555, debug=True)

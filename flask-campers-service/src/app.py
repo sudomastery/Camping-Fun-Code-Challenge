@@ -1,7 +1,17 @@
 from flask import Flask, jsonify
+from config import Config
+from extensions import db, migrate
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_object(Config)
+
+    #initialise database
+    db.init_app(app)
+
+    #attach migration engine to app and db
+    migrate.init_app(app,db)
+
 
     @app.route('/')
     def health():

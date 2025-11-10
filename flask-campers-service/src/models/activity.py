@@ -1,23 +1,33 @@
-from sqlalchemy import Column, Integer, String, Text
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from extensions import db
+from sqlalchemy.orm import validates
 
 class Activity(db.Model):
-    __tablename__ = 'activities'
+    __tablename__ = "activities"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    description = Column(Text, nullable=True)
-    duration = Column(Integer, nullable=False)  # Duration in minutes
+    id = db.Column(db.Integer, primary_key=True)
 
-    def __repr__(self):
-        return f'<Activity {self.name}>'
+    name = db.Column(db.String, nullable=False)
+    
+    difficulty = db.Column(db.Integer, nullable=False)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description,
-            'duration': self.duration
-        }
+    
+    signups = db.relationship(
+        "Signup",
+        back_populates="activity",
+        cascade="all, delete-orphan"
+    )
+
+    @validates("name")
+    def validate_name(self, _, value):
+        if not value or not str(value).strip():
+            raise ValueError("validation errors")
+        return str(value).strip()
+
+    @validates("difficulty")
+    def validate_difficulty(self, _, value):
+        if not isinstance(value, int):
+            raise ValueError("validation errors")
+        return value
+
+    def to_dict_basic(self):
+        return {"id": self.id, "name": self.name, "difficulty": self.difficulty}

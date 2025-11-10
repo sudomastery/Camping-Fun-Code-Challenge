@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from config import Config
 from extensions import db, migrate
+from routes import resgister_routes
 
 def create_app():
     app = Flask(__name__)
@@ -11,6 +12,13 @@ def create_app():
 
     #attach migration engine to app and db
     migrate.init_app(app,db)
+
+    # Ensure models are imported so migrations can detect them
+    with app.app_context():
+        import models  # noqa: F401
+
+    #register API routes
+    register_routes(app)
 
 
     @app.route('/')

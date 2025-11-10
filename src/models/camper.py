@@ -21,8 +21,8 @@ class Camper(db.Model):
     @validates("age")
     def validate_age(self, _, value):
         # Must be an integer 8..18 (inclusive)
-        if not isinstance(value, int) or value < 8 or value > 18:
-            raise ValueError("validation errors")
+        if not isinstance(value, int) or value < 8 or value > 100:
+            raise ValueError("@fucked validation errors")
         return value
 
     # Small helper used by API responses (list and create endpoints)

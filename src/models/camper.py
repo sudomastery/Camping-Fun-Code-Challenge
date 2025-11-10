@@ -21,7 +21,7 @@ class Camper(db.Model):
     @validates("age")
     def validate_age(self, _, value):
         # Must be an integer 8..18 (inclusive)
-        if not isinstance(value, int) or value < 8 or value > 100:
+        if not isinstance(value, int) or value < 8 or value >= 110:
             raise ValueError("@fucked validation errors")
         return value
 

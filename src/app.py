@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from config import Config
 from extensions import db, migrate
-from routes import resgister_routes
+from routes import register_routes
 
 def create_app():
     app = Flask(__name__)
@@ -17,7 +17,7 @@ def create_app():
     with app.app_context():
         import models  # noqa: F401
 
-    #register API routes
+    # Register API blueprints (only once)
     register_routes(app)
 
 
